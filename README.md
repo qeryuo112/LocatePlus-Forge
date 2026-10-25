@@ -112,7 +112,8 @@ mob equipment and player inventories all behave as documented.
 
 ## License
 
-LGPL-3.0-or-later, the same licence as upstream. See [LICENSE](LICENSE).
+LGPL-3.0-or-later, the same licence as upstream. [LICENSE](LICENSE) is the GNU Lesser General
+Public License v3.0; [COPYING](COPYING) is the GNU GPL v3.0 it refers to for the terms it borrows.
 
 Locate Plus is © 2026 forest_mask. This port is a derivative work and keeps the original
 copyright; the Forge-specific loader layer and the name conversion are the only parts that are new.
