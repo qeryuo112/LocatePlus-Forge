@@ -1,0 +1,88 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = "${mod_version}+1.20.1-forge"
+group = 'dev.locateplus'
+base {
+    archivesName = 'locateplus-forge'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+
+    // Mojang ships no sources for 1.20.1, so this is IDE convenience only.
+    copyIdeResources = true
+
+    runs {
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', ''
+            property 'forge.logging.console.level', 'debug'
+            // The mod is server-side only; the dedicated server run config is the one that matters.
+            args '--nogui'
+            mods {
+                locateplus {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = 'MinecraftForge'
+        url = 'https://maven.minecraftforge.net/'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${forge_version}"
+}
+
+// The dev server's console is how the commands get exercised: stdin is forwarded so commands can
+// be typed (or piped in) and their chat replies land in the log.
+afterEvaluate {
+    tasks.matching { it.name == 'runServer' }.configureEach {
+        standardInput = System.in
+    }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            mod_version  : mod_version,
+            forge_version: forge_version,
+            mc_version   : '1.20.1'
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title'     : 'locateplus',
+                'Specification-Vendor'    : 'forest_mask',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : 'forest_mask'
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // The port starts from a 12k line source tree written against different names, so the first
+    // pass has hundreds of unresolved symbols. Seeing all of them at once is what makes it one
+    // pass instead of twenty.
+    options.compilerArgs += ['-Xmaxerrs', '10000']
+}

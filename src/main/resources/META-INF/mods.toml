@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="LGPL-3.0-or-later"
+
+[[mods]]
+modId="locateplus"
+version="${mod_version}"
+displayName="Locate Plus"
+authors="forest_mask"
+credits="Forge 1.20.1 port by qeryuo112"
+description='''
+Find any block, entity or item, not just structures. Adds /locate block, /locate entity and /locate item, which tracks an item down in chests, on the ground, on mobs and in player inventories. Surveys whole areas with /lp analyze, reads everything about a position with /lp inspect, marks what it finds with an outline you can see through terrain, and teleports without dropping you inside a wall. Exports to a text file and is configurable. Server-side only, no client install needed. Type /lp for the command list.
+'''
+
+[[dependencies.locateplus]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.locateplus]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"

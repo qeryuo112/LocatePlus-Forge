@@ -1,0 +1,28 @@
+# Gradle
+build/
+run/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+eclipse/
+bin/
+.settings/
+.project
+.classpath
+
+# OS / editors
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Logs and crash dumps
+logs/
+*.log
+hs_err_pid*
+replay_pid*
